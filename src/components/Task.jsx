@@ -1,8 +1,8 @@
-import { Box, Checkbox, Text } from "@chakra-ui/react";
+import { Box, Checkbox, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import TaskMenu from "./Menu";
 
-const Task = ({ task, onDelete, onChange, onToggle }) => {
+const Task = ({ task, onDelete, onChange, onToggle, editingId , onUpdateTaskText}) => {
     const { isChecked } = task;
   const handleCheckbox = (e) => {
       onChange(task.id, e.target.checked);
@@ -41,12 +41,40 @@ const Task = ({ task, onDelete, onChange, onToggle }) => {
           isChecked={isChecked}
           onChange={handleCheckbox}
         />
-        <Box position={"relative"} flex="2">
-          {task.task}
-        </Box>
-       <TaskMenu />
+
+        {
+          editingId === task.id ? (
+            <InputText task={task}
+            onUpdateTaskText={onUpdateTaskText}
+            />
+          ) : (
+            <Box position={"relative"} flex="2">
+            {task.task}
+          </Box>
+          )
+        }
+        <TaskMenu
+          onDelete={onDelete}
+          onToggle={onToggle}
+          task={task}
+        />
       </Text>
     </Box>
+  );
+};
+
+const InputText = ({ task, onUpdateTaskText }) => {
+  const [text, setText] = useState(task.task);
+  return (
+    <Input
+      value={text}
+      onChange={(e) => setText(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          onUpdateTaskText(task.id, text)
+        }
+      }}
+    />
   );
 };
 

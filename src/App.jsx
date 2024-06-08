@@ -12,6 +12,8 @@ function App() {
     JSON.parse(localStorage.getItem("tasks")) || []
   );
 
+  const [editingId, setEditingId] = useState(false);
+
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -30,13 +32,21 @@ function App() {
     setTasks(filteredTasks);
   };
 
-  const editTask = (id) => {
-    console.log("edit", id);
-    const editedTasks = tasks.map((task) => task.id == id);
-    const updatedTask = { id, ...task };
-    const updatedTasks = [id, updatedTask];
-    setTasks(updatedTasks);
+  const editTask = (id, text) => {
+    // console.log("edit", id);
+    const editedTask = tasks.map((task) => {
+      if (task.id === id) {
+        task.task = text;
+      }
+      return task;
+    });
+    setTasks(editedTask);
+    setEditingId(false);
   };
+
+  const handleEditingState = (id) => {
+    setEditingId(id);
+  }
 
   const changeCheckbox = (id, isChecked) => {
     const changedCheckbox = tasks.map((task) => {
@@ -54,7 +64,10 @@ function App() {
         <Header />
         <AddTask onAdd={addTask} />
         {tasks.length > 0 ? (
-          <Tasks tasks={tasks} onDelete={deleteTask} onToggle={editTask} onChange={changeCheckbox}/>
+          <Tasks tasks={tasks} onDelete={deleteTask} onToggle={handleEditingState} onChange={changeCheckbox}
+            editingId={editingId}
+            onUpdateTaskText={editTask}
+          />
         ) : (
           <Text
             color={"#4fb9fc"}
