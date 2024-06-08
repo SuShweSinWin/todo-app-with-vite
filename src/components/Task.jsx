@@ -1,15 +1,11 @@
 import { Box, Checkbox, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaTrash } from "react-icons/fa";
-import { FiMoreVertical } from "react-icons/fi";
+import TaskMenu from "./Menu";
 
 const Task = ({ task, onDelete, onChange, onToggle }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
+    const { isChecked } = task;
   const handleCheckbox = (e) => {
-    if (e.key === "Enter") {
       onChange(task.id, e.target.checked);
-    }
   };
 
   return (
@@ -43,14 +39,12 @@ const Task = ({ task, onDelete, onChange, onToggle }) => {
         defaultChecked
           mr="4"
           isChecked={isChecked}
-          onChange={(e) => setIsChecked(e.currentTarget.checked)}
-          onKeyUp={handleCheckbox}
+          onChange={handleCheckbox}
         />
         <Box position={"relative"} flex="2">
           {task.task}
         </Box>
-        <FiMoreVertical style={{ marginRight: "10px" }} onClick={() => onToggle(task.id)} />
-        <FaTrash onClick={() => onDelete(task.id)} />
+       <TaskMenu />
       </Text>
     </Box>
   );

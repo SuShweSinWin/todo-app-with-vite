@@ -1,10 +1,10 @@
-import './App.css'
-import { Box, Text } from '@chakra-ui/react'
-import Header from './components/Header'
-import AddTask from './components/AddTask'
-import { v4 as uuidv4 } from 'uuid';
-import Tasks from './components/Tasks';
-import { useEffect, useState } from 'react';
+import "./App.css";
+import { Box, Text } from "@chakra-ui/react";
+import Header from "./components/Header";
+import AddTask from "./components/AddTask";
+import { v4 as uuidv4 } from "uuid";
+import Tasks from "./components/Tasks";
+import { useEffect, useState } from "react";
 uuidv4();
 
 function App() {
@@ -33,25 +33,41 @@ function App() {
   const editTask = (id) => {
     console.log("edit", id);
     const editedTasks = tasks.map((task) => task.id == id);
-    const updatedTask = {id, ...task};
+    const updatedTask = { id, ...task };
     const updatedTasks = [id, updatedTask];
     setTasks(updatedTasks);
-  }
+  };
+
+  const changeCheckbox = (id, isChecked) => {
+    const changedCheckbox = tasks.map((task) => {
+      if (task.id === id) {
+        task.isChecked = isChecked;
+      }
+      return task;
+    });
+    console.log(changedCheckbox);
+    setTasks(changedCheckbox);
+  };
   return (
     <>
-    <Box>
+      <Box>
         <Header />
-        <AddTask onAdd={addTask}/>
+        <AddTask onAdd={addTask} />
         {tasks.length > 0 ? (
-          <Tasks tasks={tasks} onDelete={deleteTask} onToggle={editTask} />
+          <Tasks tasks={tasks} onDelete={deleteTask} onToggle={editTask} onChange={changeCheckbox}/>
         ) : (
-          <Text color={"#4fb9fc"} fontWeight={'bolder'} fontSize={'larger'} mt={5}>
+          <Text
+            color={"#4fb9fc"}
+            fontWeight={"bolder"}
+            fontSize={"larger"}
+            mt={5}
+          >
             Nothing to do ☕
           </Text>
         )}
-    </Box>
+      </Box>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

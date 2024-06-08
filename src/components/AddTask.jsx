@@ -7,7 +7,7 @@ const AddTask = ({ onAdd }) => {
   
     const handleKeyDown = (e) => {
       if (e.key === "Enter" && text !== "") {
-        onAdd({ task: text });
+        onAdd({ task: text, isChecked: false });
         setText('');
       }
     };
