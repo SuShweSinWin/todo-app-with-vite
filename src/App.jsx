@@ -33,6 +33,9 @@ function App() {
   const editTask = (id) => {
     console.log("edit", id);
     const editedTasks = tasks.map((task) => task.id == id);
+    const updatedTask = {id, ...task};
+    const updatedTasks = [id, updatedTask];
+    setTasks(updatedTasks);
   }
   return (
     <>

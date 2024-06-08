@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 
-const Task = ({ task, onDelete, onChange }) => {
+const Task = ({ task, onDelete, onChange, onToggle }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckbox = (e) => {
@@ -35,6 +35,9 @@ const Task = ({ task, onDelete, onChange }) => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
+        _hover={{
+            color:'#ffff'
+        }}
       >
         <Checkbox
         defaultChecked
@@ -46,7 +49,7 @@ const Task = ({ task, onDelete, onChange }) => {
         <Box position={"relative"} flex="2">
           {task.task}
         </Box>
-        <FiMoreVertical style={{ marginRight: "10px" }} />
+        <FiMoreVertical style={{ marginRight: "10px" }} onClick={() => onToggle(task.id)} />
         <FaTrash onClick={() => onDelete(task.id)} />
       </Text>
     </Box>
